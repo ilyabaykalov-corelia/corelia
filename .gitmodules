@@ -1,0 +1,24 @@
+[submodule "corelia-attachment-service"]
+	path = corelia-attachment-service
+	url = ./corelia-attachment-service
+[submodule "corelia-auth"]
+	path = corelia-auth
+	url = ./corelia-auth
+[submodule "corelia-common"]
+	path = corelia-common
+	url = ./corelia-common
+[submodule "corelia-document-service"]
+	path = corelia-document-service
+	url = ./corelia-document-service
+[submodule "corelia-gateway"]
+	path = corelia-gateway
+	url = ./corelia-gateway
+[submodule "corelia-platform-v"]
+	path = corelia-platform-v
+	url = ./corelia-platform-v
+[submodule "corelia-system-tests"]
+	path = corelia-system-tests
+	url = ./corelia-system-tests
+[submodule "corelia-workflow-service"]
+	path = corelia-workflow-service
+	url = ./corelia-workflow-service

@@ -1,0 +1,131 @@
+name: corelia
+
+x-runtime: &runtime
+  user: "${CORELIA_UID:-1000}:${CORELIA_GID:-1000}"
+  env_file: .env
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-size: "10m"
+      max-file: "3"
+  read_only: true
+  tmpfs:
+    - /tmp:size=128m,mode=1777
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  networks: [backend]
+  secrets:
+    - source: tls-password
+      target: corelia.tls.password
+  healthcheck:
+    test: [CMD, /app/health.sh]
+    interval: 15s
+    timeout: 5s
+    start_period: 45s
+    retries: 5
+  mem_limit: 512m
+
+x-environment: &environment
+  CORELIA_KEY_STORE: /run/corelia/certs/identity.p12
+  CORELIA_TRUST_STORE: /run/corelia/certs/trust.p12
+  CORELIA_AUTH_URL: https://corelia-auth:8443
+  CORELIA_DOCUMENT_URL: https://corelia-document-service:8443
+  CORELIA_WORKFLOW_URL: https://corelia-workflow-service:8443
+  CORELIA_ATTACHMENT_URL: https://corelia-attachment-service:8443
+
+services:
+  corelia-gateway:
+    container_name: corelia-gateway
+    <<: *runtime
+    build:
+      context: .
+      args:
+        SERVICE: corelia-gateway
+        SKIP_TESTS: ${CORELIA_SKIP_TESTS:-true}
+    image: corelia/gateway:local
+    environment:
+      <<: *environment
+      CORELIA_SERVICE: corelia-gateway
+    volumes:
+      - ./.local/certs/corelia-gateway:/run/corelia/certs:ro
+    ports:
+      - "127.0.0.1:${CORELIA_GATEWAY_PORT:-7170}:7170"
+    depends_on:
+      corelia-auth: {condition: service_healthy}
+      corelia-document-service: {condition: service_healthy}
+      corelia-workflow-service: {condition: service_healthy}
+      corelia-attachment-service: {condition: service_healthy}
+
+  corelia-auth:
+    container_name: corelia-auth
+    <<: *runtime
+    build:
+      context: .
+      args:
+        SERVICE: corelia-auth
+        SKIP_TESTS: ${CORELIA_SKIP_TESTS:-true}
+    image: corelia/auth:local
+    environment:
+      <<: *environment
+      CORELIA_SERVICE: corelia-auth
+    volumes:
+      - ./.local/certs/corelia-auth:/run/corelia/certs:ro
+
+  corelia-document-service:
+    container_name: corelia-document-service
+    <<: *runtime
+    build:
+      context: .
+      args:
+        SERVICE: corelia-document-service
+        SKIP_TESTS: ${CORELIA_SKIP_TESTS:-true}
+    image: corelia/document-service:local
+    environment:
+      <<: *environment
+      CORELIA_SERVICE: corelia-document-service
+    volumes:
+      - ./.local/certs/corelia-document-service:/run/corelia/certs:ro
+    depends_on:
+      corelia-workflow-service: {condition: service_healthy}
+
+  corelia-workflow-service:
+    container_name: corelia-workflow-service
+    <<: *runtime
+    build:
+      context: .
+      args:
+        SERVICE: corelia-workflow-service
+        SKIP_TESTS: ${CORELIA_SKIP_TESTS:-true}
+    image: corelia/workflow-service:local
+    environment:
+      <<: *environment
+      CORELIA_SERVICE: corelia-workflow-service
+    volumes:
+      - ./.local/certs/corelia-workflow-service:/run/corelia/certs:ro
+
+  corelia-attachment-service:
+    container_name: corelia-attachment-service
+    <<: *runtime
+    build:
+      context: .
+      args:
+        SERVICE: corelia-attachment-service
+        SKIP_TESTS: ${CORELIA_SKIP_TESTS:-true}
+    image: corelia/attachment-service:local
+    environment:
+      <<: *environment
+      CORELIA_SERVICE: corelia-attachment-service
+    volumes:
+      - ./.local/certs/corelia-attachment-service:/run/corelia/certs:ro
+    depends_on:
+      corelia-document-service: {condition: service_healthy}
+
+networks:
+  backend:
+    driver: bridge
+
+secrets:
+  tls-password:
+    file: ./.local/secrets/corelia.tls.password
+    name: corelia.tls.password
