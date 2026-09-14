@@ -1,24 +1,24 @@
 [submodule "corelia-attachment-service"]
 	path = corelia-attachment-service
-	url = ./corelia-attachment-service
+	url = git@github.com:ilyabaykalov-corelia/corelia-attachment-service.git
 [submodule "corelia-auth"]
 	path = corelia-auth
-	url = ./corelia-auth
+	url = git@github.com:ilyabaykalov-corelia/corelia-auth.git
 [submodule "corelia-common"]
 	path = corelia-common
-	url = ./corelia-common
+	url = git@github.com:ilyabaykalov-corelia/corelia-common.git
 [submodule "corelia-document-service"]
 	path = corelia-document-service
-	url = ./corelia-document-service
+	url = git@github.com:ilyabaykalov-corelia/corelia-document-service.git
 [submodule "corelia-gateway"]
 	path = corelia-gateway
-	url = ./corelia-gateway
+	url = git@github.com:ilyabaykalov-corelia/corelia-gateway.git
 [submodule "corelia-platform-v"]
 	path = corelia-platform-v
-	url = ./corelia-platform-v
+	url = git@github.com:ilyabaykalov-corelia/corelia-platform-v.git
 [submodule "corelia-system-tests"]
 	path = corelia-system-tests
-	url = ./corelia-system-tests
+	url = git@github.com:ilyabaykalov-corelia/corelia-system-tests.git
 [submodule "corelia-workflow-service"]
 	path = corelia-workflow-service
-	url = ./corelia-workflow-service
+	url = git@github.com:ilyabaykalov-corelia/corelia-workflow-service.git
