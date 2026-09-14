@@ -1,0 +1,18 @@
+# Дополнительное доверие Platform V с сохранением стандартных CA образа Java.
+x-platformv-tls: &platformv-tls
+  environment:
+    JDK_JAVA_OPTIONS: "${JDK_JAVA_OPTIONS:-} -Djavax.net.ssl.trustStore=/run/corelia/platformv/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
+  volumes:
+    - ./.local/platformv/cacerts:/run/corelia/platformv/cacerts:ro
+
+services:
+  corelia-gateway:
+    <<: *platformv-tls
+  corelia-auth:
+    <<: *platformv-tls
+  corelia-document-service:
+    <<: *platformv-tls
+  corelia-workflow-service:
+    <<: *platformv-tls
+  corelia-attachment-service:
+    <<: *platformv-tls

@@ -1,0 +1,29 @@
+# Локальная JDWP-отладка: ./scripts/up.sh --debug
+x-debug-environment: &debug-environment
+  JAVA_TOOL_OPTIONS: "${JAVA_TOOL_OPTIONS:-} -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+
+services:
+  corelia-gateway:
+    environment: *debug-environment
+    ports:
+      - "127.0.0.1:${CORELIA_GATEWAY_DEBUG_PORT:-5005}:5005"
+
+  corelia-auth:
+    environment: *debug-environment
+    ports:
+      - "127.0.0.1:${CORELIA_AUTH_DEBUG_PORT:-5006}:5005"
+
+  corelia-document-service:
+    environment: *debug-environment
+    ports:
+      - "127.0.0.1:${CORELIA_DOCUMENT_DEBUG_PORT:-5007}:5005"
+
+  corelia-workflow-service:
+    environment: *debug-environment
+    ports:
+      - "127.0.0.1:${CORELIA_WORKFLOW_DEBUG_PORT:-5008}:5005"
+
+  corelia-attachment-service:
+    environment: *debug-environment
+    ports:
+      - "127.0.0.1:${CORELIA_ATTACHMENT_DEBUG_PORT:-5009}:5005"
