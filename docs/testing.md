@@ -20,7 +20,7 @@ docker compose build
 | CoreliaIntegrationTest | HTTP/mTLS взаимодействие приложений, авторизация, документы, задачи, версии, файлы и КИД ОПС |
 | DocumentVersionServiceTest | Общий алгоритм снимков, повторов, конфликтов и файлового состава |
 | KidOpsValidationTest | Валидация реквизитов КИД ОПС |
-| DockerSmokeTest | Вызовы gateway собранного Docker-контура с тестовой платформой |
+| DockerSmokeTest | Сценарий СберНПФ и загрузка двух каталогов одними образами; сравнение image IDs |
 | PlatformStub и allowed-requests.json | Имитация внешних API и независимые разрешённые тексты GraphQL |
 
 Файлы находятся в `corelia-system-tests/src/test`. Обычные тесты используют имитацию DataSpace/BPM/DAM/Keycloak. Docker smoke работает в отдельном проекте corelia-smoke. Эти проверки не изменяют данные рабочего стенда и не исполняют настоящий SDK-генератор, модель permissions или BPMN-движок.
@@ -51,3 +51,5 @@ bash ../sber-npf-platform-v/scripts/package-platform-v.sh
 Полный прогон использует соседние sber-npf-corelia-config и sber-npf-platform-v для миграционного контракта. Docker smoke получает внешний пакет через read-only mount. Для чистой сборки после `scripts/init-local.sh` используйте `mvn -B -ntp clean verify`, а не `scripts/test.sh clean` (скрипт добавляет аргументы после verify).
 
 Текущие результаты и незавершённые этапы фиксируются в `../task completion progress.md` общей рабочей папки.
+
+Docker smoke использует имена `corelia-smoke-*`, случайный порт gateway и `up --no-build`; рабочие контейнеры не останавливаются. Тест двух каталогов проверяет startup, metadata endpoints и запрет создания для чужой роли. Общие статические операции дополняются из миграционного пакета только для стартовой проверки адаптера; они не исполняются этим тестом. Это ещё не полноценные Platform V packages двух заказчиков и не проверка CRUD/файлов/процессов обоих заказчиков.
