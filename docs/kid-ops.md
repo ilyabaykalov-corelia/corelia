@@ -73,13 +73,12 @@ DAM и DataSpace не имеют общей транзакции: при сбо�
 
 ## Проверка и деплой
 
-- `bash corelia/scripts/test.sh` — HTTP/mTLS сценарии КИД ОПС и регрессия ПДС,
+- `bash scripts/test.sh` — HTTP/mTLS сценарии КИД ОПС и регрессия ПДС,
   обязательность/форматы полей, отказ загрузки, версии и блокировка после хранения.
-- `npm --prefix sber-npf-react run build` — TypeScript и сборка React.
-- `bash sber-npf-platform-v/scripts/package-platform-v.sh` — полный архив,
+- `npm --prefix ../sber-npf-react run build` — TypeScript и сборка React.
+- `bash ../sber-npf-platform-v/scripts/package-platform-v.sh` — полный архив,
   включающий новую BPMN, справочники, модель и permissions.
 
-На тестовом стенде выпускать полный комплект со сбросом данных, затем обновить
-Corelia и React. Обязательно опубликовать новый процесс и проверить его выбор
+Команды выше выполняются из корня Corelia. Устанавливать совместимый полный комплект платформы, Corelia и React. Для существующих данных заранее определить миграцию; сброс данных не является обязательной процедурой обновления. Обязательно опубликовать новый процесс и проверить его выбор
 по DocumentProcessSettings. Генерацию SDK и реальное выполнение пакета BPMN
 локальный PlatformStub не заменяет.
