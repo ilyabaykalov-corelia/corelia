@@ -18,6 +18,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
+        <module>corelia-configuration</module>
+        <module>corelia-config-compiler</module>
         <module>corelia-common</module>
         <module>corelia-platform-v</module>
         <module>corelia-auth</module>

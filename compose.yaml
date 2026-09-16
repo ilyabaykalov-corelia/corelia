@@ -27,6 +27,7 @@ x-runtime: &runtime
   mem_limit: 512m
 
 x-environment: &environment
+  CORELIA_CONFIG_PATH: /etc/corelia/config
   CORELIA_KEY_STORE: /run/corelia/certs/identity.p12
   CORELIA_TRUST_STORE: /run/corelia/certs/trust.p12
   CORELIA_AUTH_URL: https://corelia-auth:8443
@@ -48,6 +49,7 @@ services:
       <<: *environment
       CORELIA_SERVICE: corelia-gateway
     volumes:
+      - ${CORELIA_CUSTOMER_CONFIG:?Set CORELIA_CUSTOMER_CONFIG to the customer package}:/etc/corelia/config:ro
       - ./.local/certs/corelia-gateway:/run/corelia/certs:ro
     ports:
       - "127.0.0.1:${CORELIA_GATEWAY_PORT:-7170}:7170"
@@ -70,6 +72,7 @@ services:
       <<: *environment
       CORELIA_SERVICE: corelia-auth
     volumes:
+      - ${CORELIA_CUSTOMER_CONFIG:?Set CORELIA_CUSTOMER_CONFIG to the customer package}:/etc/corelia/config:ro
       - ./.local/certs/corelia-auth:/run/corelia/certs:ro
 
   corelia-document-service:
@@ -85,6 +88,7 @@ services:
       <<: *environment
       CORELIA_SERVICE: corelia-document-service
     volumes:
+      - ${CORELIA_CUSTOMER_CONFIG:?Set CORELIA_CUSTOMER_CONFIG to the customer package}:/etc/corelia/config:ro
       - ./.local/certs/corelia-document-service:/run/corelia/certs:ro
     depends_on:
       corelia-workflow-service: {condition: service_healthy}
@@ -102,6 +106,7 @@ services:
       <<: *environment
       CORELIA_SERVICE: corelia-workflow-service
     volumes:
+      - ${CORELIA_CUSTOMER_CONFIG:?Set CORELIA_CUSTOMER_CONFIG to the customer package}:/etc/corelia/config:ro
       - ./.local/certs/corelia-workflow-service:/run/corelia/certs:ro
 
   corelia-attachment-service:
@@ -117,6 +122,7 @@ services:
       <<: *environment
       CORELIA_SERVICE: corelia-attachment-service
     volumes:
+      - ${CORELIA_CUSTOMER_CONFIG:?Set CORELIA_CUSTOMER_CONFIG to the customer package}:/etc/corelia/config:ro
       - ./.local/certs/corelia-attachment-service:/run/corelia/certs:ro
     depends_on:
       corelia-document-service: {condition: service_healthy}

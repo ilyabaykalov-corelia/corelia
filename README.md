@@ -162,3 +162,7 @@ docker compose build
 Maven создаёт обычный JAR и исполняемый `*-exec.jar`. Например, отдельная сборка gateway: `mvn -pl corelia-gateway -am package -DskipTests`. Для локального запуска JAR потребуются те же адреса, mTLS-ключи и пароль, что в Compose; для первого запуска удобнее использовать готовый Docker-сценарий.
 
 Порядок проверок и границы имитации платформы: [testing.md](docs/testing.md).
+
+## Внешняя конфигурация
+
+При запуске требуется customer package. Для Compose задайте `CORELIA_CUSTOMER_CONFIG` абсолютным путём к пакету на хосте; для JVM — `CORELIA_CONFIG_PATH`. Встроенных схем заказчика в продукте больше нет. Порядок подготовки и ограничения миграции: [конфигурация](docs/configuration.md).
