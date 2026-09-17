@@ -81,3 +81,13 @@ PUT принимает такой же объект, но ровно с одни
 Специальные POST-маршруты: `/documents/{type}/{id}/attachment-commands` — только от attachment-service, `/initial-attachments/{id}` — только от document-service. Запуск `/processes/start` передаёт typeCode, documentId, attributes; для КИД ОПС также подготовленное вложение и реквизиты команды создания. Процесс выбирается по DocumentProcessSettings.
 
 Gateway закрывает `/internal/`; публичного выполнения произвольного GraphQL или произвольного URL платформы нет. Источник публичных маршрутов — [CoreController.java](../corelia-gateway/src/main/java/ru/corelia/gateway/CoreController.java).
+
+## API внешней конфигурации и capabilities
+
+- `GET /api/core/v1/document-types` — каталог с прежними code/name/fields и дополнительными schema/ui.
+- `GET /api/core/v1/document-types/{type}` — одно публичное определение без storage/workflow internals.
+- `GET /api/core/v1/documents/{type}/{id}/capabilities` — `{capabilities: ["EDIT", "ADD_ATTACHMENT", "REPLACE_ATTACHMENT", "DELETE_ATTACHMENT"]}` с актуально допустимым подмножеством. В отсутствие файлов replace/delete не возвращаются. Это предварительный ответ текущей политики; команда повторно проверяет права и платформу.
+- `GET /api/core/v1/documents/{type}/{id}/actions` — `{actions: [...], capabilities: [...]}`. Объекты actions получены из текущих options задачи Platform V.
+- `POST /api/core/v1/documents/{type}/{id}/actions/{action}` — выполнить доступный код действия текущей задачи и вернуть карточку. Параметры берутся из платформенной option, произвольный payload не используется. Не создаёт новый процесс для новой версии.
+
+Старые маршруты задач сохраняются для совместимости. Ошибка платформы при чтении capabilities не превращается в выданное право; отсутствие capability не заменяет серверный запрет. Полная унификация customer authorization ещё не завершена.
