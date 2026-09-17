@@ -24,7 +24,7 @@
 	url = git@github.com:ilyabaykalov-corelia/corelia-workflow-service.git
 [submodule "corelia-configuration"]
 	path = corelia-configuration
-	url = git@github.com:ilyabaykalov-corelia/corelia-configuration
+	url = git@github.com:ilyabaykalov-corelia/corelia-configuration.git
 [submodule "corelia-config-compiler"]
 	path = corelia-config-compiler
-	url = git@github.com:ilyabaykalov-corelia/corelia-config-compiler
+	url = git@github.com:ilyabaykalov-corelia/corelia-config-compiler.git
