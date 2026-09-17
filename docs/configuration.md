@@ -12,9 +12,9 @@
 
 Пакет СберНПФ расположен в соседнем репозитории `sber-npf-corelia-config`. Его нельзя заменять содержимым образа или встроенной конфигурацией по умолчанию.
 
-## Контракт версии 1
+## Архивный контракт версии 1
 
-Формат — JSON. `schemaVersion: 1`; `compatibility.corelia` имеет явный формат `>=0.1.0 <1.0.0` (полные версии из трёх чисел). Это версия продукта; `documentTypes[].schemaVersion` отдельно версионирует снимок реквизитов.
+Формат V1 сохранён ниже только как описание исторических пакетов. Runtime и компилятор больше не принимают `schemaVersion: 1`; пакет необходимо перевести на V2. `compatibility.corelia` имеет явный формат `>=0.1.0 <1.0.0` (полные версии из трёх чисел). Это версия продукта; `documentTypes[].schemaVersion` отдельно версионирует снимок реквизитов.
 
 Каждый вид содержит `id`, `title`, `schemaVersion`, `schema`, `ui`, `storage`, `workflow`, `attachments`; `authorization` (обязателен для Platform V); необязательные `presentation` и `normalization`. Примеры — пакет заказчика и `corelia-system-tests/src/test/resources/customers`.
 
