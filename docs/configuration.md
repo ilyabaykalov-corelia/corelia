@@ -26,6 +26,12 @@
 - `attachments`: enabled/initialRequired/maxCount. Обязательное начальное вложение использует существующий staging → BPM → v1 протокол; ограничение количества проверяется владельцем документа перед транзакцией.
 - `presentation`: statuses/aliases/tones/initialStatus. Это представление состояний, не разрешение менять статус произвольно.
 
+## Контракт версии 2
+
+`configuration.json` V2 — только manifest с `compatibility` и четырьмя обязательными source-каталогами: `data-model/entities`, `ui`, `operations`, `permissions`. Каждый JSON-файл описывает одну логическую единицу: entity содержит модель вида без UI и authorization, UI-файл — `{id, ui}`, permissions-файл — `{id, authorization}`, operation-файл — `{id, file, multiaggregate}`. Имя файла обязано совпадать с kebab-case идентификатора: например, `PDS_CONTRACT` — `pds-contract.json`, `commitDocumentAttributes` — `commit-document-attributes.json`.
+
+GraphQL-путь задаётся относительно operation-файла и не может выйти за корень пакета. Scanner сортирует пути, а assembler сортирует ID, поэтому порядок файлов не влияет на нормализованную конфигурацию. Duplicate ID, неизвестные fragments, неполные пары entity/UI/permissions, некорректные обязательные поля и отсутствующий GraphQL-ресурс завершают загрузку с указанием исходного файла. V1 и V2 приводятся к одинаковой V1-normalized модели; сервисы не зависят от числа source-файлов.
+
 Каталог `/api/core/v1/document-types` сохраняет поля прежнего API и дополнен schema/ui; `/document-types/{type}` возвращает одно определение. Storage mappings и process IDs в публичный ответ не включаются.
 
 ## Компилятор
