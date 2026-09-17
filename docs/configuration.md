@@ -12,9 +12,9 @@
 
 Пакет СберНПФ расположен в соседнем репозитории `sber-npf-corelia-config`. Его нельзя заменять содержимым образа или встроенной конфигурацией по умолчанию.
 
-## Контракт версии 1
+## Архивный контракт версии 1
 
-Формат — JSON. `schemaVersion: 1`; `compatibility.corelia` имеет явный формат `>=0.1.0 <1.0.0` (полные версии из трёх чисел). Это версия продукта; `documentTypes[].schemaVersion` отдельно версионирует снимок реквизитов.
+Формат V1 сохранён ниже только как описание исторических пакетов. Runtime и компилятор больше не принимают `schemaVersion: 1`; пакет необходимо перевести на V2. `compatibility.corelia` имеет явный формат `>=0.1.0 <1.0.0` (полные версии из трёх чисел). Это версия продукта; `documentTypes[].schemaVersion` отдельно версионирует снимок реквизитов.
 
 Каждый вид содержит `id`, `title`, `schemaVersion`, `schema`, `ui`, `storage`, `workflow`, `attachments`; `authorization` (обязателен для Platform V); необязательные `presentation` и `normalization`. Примеры — пакет заказчика и `corelia-system-tests/src/test/resources/customers`.
 
@@ -25,6 +25,12 @@
 - `workflow`: processes и actions с проверяемыми ссылками на process aliases. `creationSource=platform-settings` сохраняет выбор через `DocumentProcessSettings`; `creationSource=configuration` выбирает process alias по creationAction. externalFields задаёт реквизиты поиска задач; completion задаёт statusField/assigneeField, признаки назначения и autoStart. Произвольный запуск остальных logical actions пока не опубликован в API.
 - `attachments`: enabled/initialRequired/maxCount. Обязательное начальное вложение использует существующий staging → BPM → v1 протокол; ограничение количества проверяется владельцем документа перед транзакцией.
 - `presentation`: statuses/aliases/tones/initialStatus. Это представление состояний, не разрешение менять статус произвольно.
+
+## Контракт версии 2
+
+`configuration.json` V2 — только manifest с `compatibility` и четырьмя обязательными source-каталогами: `data-model/entities`, `ui`, `operations`, `permissions`. Каждый JSON-файл описывает одну логическую единицу: entity содержит модель вида без UI и authorization, UI-файл — `{id, ui}`, permissions-файл — `{id, authorization}`, operation-файл — `{id, file, multiaggregate}`. Имя файла обязано совпадать с kebab-case идентификатора: например, `PDS_CONTRACT` — `pds-contract.json`, `commitDocumentAttributes` — `commit-document-attributes.json`.
+
+GraphQL-путь задаётся относительно operation-файла и не может выйти за корень пакета. Scanner сортирует пути, а assembler сортирует ID, поэтому порядок файлов не влияет на нормализованную конфигурацию. Duplicate ID, неизвестные fragments, неполные пары entity/UI/permissions, некорректные обязательные поля и отсутствующий GraphQL-ресурс завершают загрузку с указанием исходного файла. V1 и V2 приводятся к одинаковой V1-normalized модели; сервисы не зависят от числа source-файлов.
 
 Каталог `/api/core/v1/document-types` сохраняет поля прежнего API и дополнен schema/ui; `/document-types/{type}` возвращает одно определение. Storage mappings и process IDs в публичный ответ не включаются.
 
