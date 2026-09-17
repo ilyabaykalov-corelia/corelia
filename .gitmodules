@@ -28,3 +28,6 @@
 [submodule "corelia-config-compiler"]
 	path = corelia-config-compiler
 	url = git@github.com:ilyabaykalov-corelia/corelia-config-compiler.git
+[submodule "corelia-web"]
+	path = corelia-web
+	url = git@github.com:ilyabaykalov-corelia/corelia-web.git

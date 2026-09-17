@@ -16,7 +16,7 @@
 | `corelia-common` | Конфигурация, JWT, безопасность запросов, межсервисный HTTP, ошибки, кэши и служебные функции; подключает независимый модуль `corelia-configuration` |
 | `corelia-platform-v` | Библиотека интеграции: `DataSpaceClient`, `BpmClient`, `FileStorageClient`, `DocumentTypes`, внешние GraphQL-операции |
 | `corelia-system-tests` | Тесты реальных приложений с имитацией платформы, тесты общего алгоритма версий, валидации КИД ОПС, Docker smoke |
-| `../sber-npf-react` | React 19, TypeScript, Vite, MUI, Redux Toolkit, React Router |
+| `../corelia-web` | React 19, TypeScript, Vite, MUI, Redux Toolkit, React Router |
 | `../sber-npf-platform-v` | Модель DataSpace, разрешённые GraphQL, права, справочники, BPMN, комплект поставки |
 
 Ядро использует Java 25, Spring Boot 4.0.8 и Maven. Пять приложений запускаются отдельно, общаются через HTTP; библиотеки не являются отдельными сервисами. Gateway реализован на Spring MVC и Java HttpClient, не на Spring Cloud Gateway.
@@ -84,9 +84,9 @@ DAM получает бинарный файл до фиксации метад�
 
 ## Внешний React-клиент
 
-Клиент расположен в соседнем репозитории `sber-npf-react`, не входит в Maven-сборку Corelia.
+Клиент расположен в соседнем репозитории `corelia-web`, не входит в Maven-сборку Corelia.
 
-| Область | Файлы относительно `sber-npf-react/src` |
+| Область | Файлы относительно `../corelia-web` |
 | --- | --- |
 | Маршруты и защита сессии | `App.tsx` |
 | Главная, реестр, создание, карточка, очереди | `pages/HomePage.tsx`, `DocumentsListPage.tsx`, `DocumentCreatePage.tsx`, `DocumentDetailPage.tsx`, `TasksListPage.tsx` |

@@ -18,15 +18,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
-        <module>corelia-configuration</module>
-        <module>corelia-config-compiler</module>
-        <module>corelia-common</module>
-        <module>corelia-platform-v</module>
         <module>corelia-auth</module>
+        <module>corelia-gateway</module>
         <module>corelia-document-service</module>
         <module>corelia-workflow-service</module>
         <module>corelia-attachment-service</module>
-        <module>corelia-gateway</module>
+        <module>corelia-web</module>
+        <module>corelia-common</module>
+        <module>corelia-platform-v</module>
+        <module>corelia-configuration</module>
+        <module>corelia-config-compiler</module>
         <module>corelia-system-tests</module>
     </modules>
     <build>
